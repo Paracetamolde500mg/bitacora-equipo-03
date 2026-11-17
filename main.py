@@ -1,6 +1,7 @@
 from pathlib import Path
 from flask import Flask, jsonify
 from db import init_app
+from rutas.incidentes import bp as incidentes_bp
 
 
 def create_app():
@@ -9,6 +10,8 @@ def create_app():
     app.config["DATABASE"] = str(Path(app.instance_path) / "bitacora.sqlite")
     Path(app.instance_path).mkdir(parents=True, exist_ok=True)
     init_app(app)
+
+    app.register_blueprint(incidentes_bp)
 
     @app.get("/api/salud")
     def salud():
